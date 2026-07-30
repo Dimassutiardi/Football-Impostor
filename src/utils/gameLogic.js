@@ -29,7 +29,9 @@ export function generateGameRoles(playerNames, categoryWords, impostorCount = 1)
   const playersWithRoles = shuffledNames.map((name, index) => {
     const isImpostor = roleTypes[index] === "IMPOSTOR";
     return {
+      id: `player-${index}-${Date.now()}`, // 💡 Tambahkan ID unik agar key rendering aman
       name: name,
+      isImpostor: isImpostor, // 💡 TAMBAHKAN INI agar ResultScreen & App bisa mendeteksi impostor
       role: isImpostor ? "IMPOSTOR" : "REAL_PLAYER",
       word: isImpostor ? selectedObj.whiteWord : selectedObj.trueWord,
       hint: selectedObj.hint,

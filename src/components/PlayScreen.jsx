@@ -2,12 +2,34 @@ import React, { useState } from "react";
 import { Users, UserX, CheckCircle2, MessageSquare } from "lucide-react";
 import ScreenFrame from "./ScreenFrame";
 
-export default function PlayScreen({ players, onFinishPlay }) {
-  const [selectedPlayer, setSelectedPlayer] = useState(null);
+export default function PlayScreen({ 
+  players = [], 
+  impostorCount = 1, 
+  onFinishPlay,
+  activeTab = "home",   // 💡 Tambahkan ini
+  onTabChange           // 💡 Tambahkan ini
+}) {
+  // Array untuk menampung beberapa pemain yang dituduh
+  const [selectedPlayers, setSelectedPlayers] = useState([]);
+
+  const toggleSelectPlayer = (player) => {
+    // 💡 Gunakan player.name sebagai identifier yang pasti unik jika 'id' bernilai undefined
+    const isAlreadySelected = selectedPlayers.some((p) => (p.id || p.name) === (player.id || player.name));
+
+    if (isAlreadySelected) {
+      // Hapus dari daftar jika diklik lagi
+      setSelectedPlayers(selectedPlayers.filter((p) => (p.id || p.name) !== (player.id || player.name)));
+    } else {
+      // Tambahkan jika belum mencapai batas jumlah impostor
+      if (selectedPlayers.length < impostorCount) {
+        setSelectedPlayers([...selectedPlayers, player]);
+      }
+    }
+  };
 
   const handleSubmitVote = () => {
-    if (selectedPlayer) {
-      onFinishPlay(selectedPlayer);
+    if (selectedPlayers.length === impostorCount && onFinishPlay) {
+      onFinishPlay(selectedPlayers);
     }
   };
 
@@ -15,17 +37,18 @@ export default function PlayScreen({ players, onFinishPlay }) {
     <ScreenFrame
       stepLabel="Debat & Vote"
       title="DEBAT & VOTING"
-      subtitle="Jawab pertanyaan, Diskusikan lalu sepakati tebakan!"
-      activeTab="home"
+      subtitle={`Pilih ${impostorCount} orang yang kamu curigai!`}
+      activeTab={activeTab}      
+      onTabChange={onTabChange}  
     >
       <div className="space-y-3.5">
         {/* Banner Instruksi */}
         <div className="rounded-2xl border border-amber-500/30 bg-amber-500/10 p-3 text-left text-xs text-amber-200 flex items-start gap-2.5">
           <MessageSquare className="h-4 w-4 shrink-0 text-amber-400 mt-0.5" />
           <div className="space-y-0.5 text-[0.7rem]">
-            <span className="font-bold text-amber-300 block">Aturan Diskusi:</span>
+            <span className="font-bold text-amber-300 block">Aturan Voting:</span>
             <p className="text-white/70 leading-relaxed">
-              Tanyakan clue tanpa membocorkan kata. Setelah diskusi, pilih nama pemain yang paling dicurigai di bawah ini.
+              Ada <span className="text-amber-300 font-bold">{impostorCount} Impostor</span> dalam game ini. Tanyakan clue tanpa membocorkan kata, lalu pilih {impostorCount} terduga!
             </p>
           </div>
         </div>
@@ -33,19 +56,24 @@ export default function PlayScreen({ players, onFinishPlay }) {
         {/* Voting Grid */}
         <div className="rounded-2xl border border-white/10 bg-black/30 p-3.5">
           <div className="mb-2 flex items-center justify-between">
-            <span className="text-xs font-bold text-white">Pilih Terduga Impostor</span>
+            <span className="text-xs font-bold text-white">
+              Terpilih: {selectedPlayers.length} / {impostorCount}
+            </span>
             <Users className="h-4 w-4 text-lime-400" />
           </div>
 
           <div className="grid grid-cols-2 gap-2 max-h-56 overflow-y-auto pr-1">
-            {players.map((player) => {
-              const isSelected = selectedPlayer?.id === player.id;
+            {players.map((player, index) => {
+              // 💡 Pengecekan isSelected diperbaiki agar mengecek id ATAU name
+              const isSelected = selectedPlayers.some(
+                (p) => (p.id || p.name) === (player.id || player.name)
+              );
 
               return (
                 <button
-                  key={player.id}
+                  key={player.id || `player-${index}`}
                   type="button"
-                  onClick={() => setSelectedPlayer(player)}
+                  onClick={() => toggleSelectPlayer(player)}
                   className={`flex items-center justify-between p-2.5 rounded-xl border text-left transition ${
                     isSelected
                       ? "border-rose-500 bg-rose-500/20 text-white shadow-[0_0_12px_rgba(244,63,94,0.3)]"
@@ -66,15 +94,17 @@ export default function PlayScreen({ players, onFinishPlay }) {
         {/* Tombol Eksekusi */}
         <button
           type="button"
-          disabled={!selectedPlayer}
+          disabled={selectedPlayers.length !== impostorCount}
           onClick={handleSubmitVote}
           className={`w-full py-3 rounded-full text-xs font-black uppercase tracking-widest transition ${
-            selectedPlayer
+            selectedPlayers.length === impostorCount
               ? "bg-rose-500 text-white hover:bg-rose-600 shadow-[0_0_20px_rgba(244,63,94,0.4)] cursor-pointer"
               : "bg-white/10 text-white/30 cursor-not-allowed"
           }`}
         >
-          {selectedPlayer ? `Tuduh ${selectedPlayer.name} & Buka Hasil` : "Pilih 1 Nama Dulu..."}
+          {selectedPlayers.length === impostorCount
+            ? `Tuduh ${selectedPlayers.map((p) => p.name).join(", ")} & Buka Hasil`
+            : `Pilih ${impostorCount - selectedPlayers.length} Nama Lagi...`}
         </button>
       </div>
     </ScreenFrame>

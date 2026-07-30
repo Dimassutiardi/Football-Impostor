@@ -2,7 +2,12 @@ import React, { useState } from "react";
 import { Eye, HelpCircle, CircleChevronRight, Lock } from "lucide-react";
 import ScreenFrame from "./ScreenFrame";
 
-export default function RevealScreen({ players, onFinishReveal }) {
+export default function RevealScreen({ 
+  players, 
+  onFinishReveal,
+  activeTab = "home",   // 💡 Tambahkan ini
+  onTabChange           // 💡 Tambahkan ini
+}) {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isHolding, setIsHolding] = useState(false);
 
@@ -19,13 +24,14 @@ export default function RevealScreen({ players, onFinishReveal }) {
   };
 
   return (
-    <ScreenFrame
-      stepLabel="Reveal Screen"
-      title="LIHAT PERTANYAAN"
-      subtitle="Jangan tunjukkan ke pemain lain!"
-      activeTab="home"
-      rightIcon={<HelpCircle className="h-5 w-5" />}
-    >
+      <ScreenFrame
+        stepLabel="Reveal Screen"
+        title="LIHAT PERTANYAAN"
+        subtitle="Jangan tunjukkan ke pemain lain!"
+        activeTab={activeTab}
+        onTabChange={onTabChange}
+        rightIcon={<HelpCircle className="h-5 w-5" />}
+      >
       <div className="space-y-4">
         {/* Status Turn */}
         <div className="flex items-center justify-between rounded-full border border-white/10 bg-black/30 px-3.5 py-1.5 text-xs text-white/70">

@@ -2,7 +2,12 @@ import React, { useState } from "react";
 import { Users, UserX, Shield, Trophy, User, BookOpen, PlayCircle, HelpCircle, AlertTriangle, UserCheck } from "lucide-react";
 import ScreenFrame from "./ScreenFrame";
 
-export default function SetupScreen({ initialPlayerNames = ["Pemain 1", "Pemain 2", "Pemain 3", "Pemain 4"], onStartGame }) {
+export default function SetupScreen({ 
+  initialPlayerNames = ["Pemain 1", "Pemain 2", "Pemain 3", "Pemain 4"], 
+  onStartGame,
+  activeTab = "home",   // 💡 Tambahkan ini
+  onTabChange           // 💡 Tambahkan ini
+}) {
   const [playerNames, setPlayerNames] = useState(initialPlayerNames);
   const [playerCount, setPlayerCount] = useState(initialPlayerNames.length);
   const [impostorCount, setImpostorCount] = useState(1);
@@ -46,13 +51,14 @@ export default function SetupScreen({ initialPlayerNames = ["Pemain 1", "Pemain 
   };
 
   return (
-    <ScreenFrame
-      stepLabel="Setup Game"
-      title="SETUP GAME"
-      subtitle="Atur pemain & topik sebelum mulai"
-      activeTab="home"
-      rightIcon={<HelpCircle className="h-5 w-5" />}
-    >
+      <ScreenFrame
+        stepLabel="Setup Game"
+        title="SETUP GAME"
+        subtitle="Atur pemain & topik sebelum mulai"
+        activeTab={activeTab}
+        onTabChange={onTabChange}
+        rightIcon={<HelpCircle className="h-5 w-5" />}
+      >
       <form onSubmit={handleStart} className="space-y-3.5">
         
         {/* Kategori Topik */}

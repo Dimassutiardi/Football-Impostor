@@ -15,7 +15,9 @@ export default function ScreenFrame({
   children,
   footer,
   activeTab = "home",
+  onTabChange, // 💡 Handler untuk klik tab navbar bawah
   showBack = false,
+  onBack,
   rightIcon,
 }) {
   return (
@@ -39,7 +41,11 @@ export default function ScreenFrame({
 
           <div className="flex items-center gap-1.5 shrink-0">
             {showBack && (
-              <button type="button" className="p-1.5 rounded-lg hover:bg-white/10 text-white/70 transition">
+              <button
+                type="button"
+                onClick={onBack}
+                className="p-1.5 rounded-lg hover:bg-white/10 text-white/70 transition cursor-pointer"
+              >
                 <ChevronLeft className="h-5 w-5" />
               </button>
             )}
@@ -75,7 +81,8 @@ export default function ScreenFrame({
               <button
                 key={tab.key}
                 type="button"
-                className={`flex flex-col items-center justify-center gap-1 py-2 rounded-xl transition-all ${
+                onClick={() => onTabChange && onTabChange(tab.key)}
+                className={`flex flex-col items-center justify-center gap-1 py-2 rounded-xl transition-all cursor-pointer ${
                   active
                     ? "bg-white/10 text-lime-300 font-bold border border-lime-400/20"
                     : "text-white/50 hover:bg-white/5 hover:text-white/80"
