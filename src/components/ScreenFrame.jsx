@@ -1,5 +1,5 @@
 import React from "react";
-import { ChevronLeft, HelpCircle, Shield, Home, Clock3, ChartColumn, SlidersHorizontal } from "lucide-react";
+import { ChevronLeft, Shield, Home, Clock3, ChartColumn, SlidersHorizontal } from "lucide-react";
 
 const bottomTabs = [
   { key: "home", label: "Beranda", icon: Home },
@@ -9,71 +9,64 @@ const bottomTabs = [
 ];
 
 export default function ScreenFrame({
-  step,
   stepLabel,
   title,
   subtitle,
   children,
   footer,
   activeTab = "home",
-  showBack = true,
-  showHelp = true,
+  showBack = false,
   rightIcon,
 }) {
   return (
-    <section className="screen-card w-full max-w-[446px]">
-      <div className="screen-panel overflow-hidden px-4 py-4 sm:px-5 sm:py-5">
-        <div className="mb-4 flex items-center justify-between gap-3">
-          <div className="flex items-center gap-2.5">
-            <div className="brand-chip text-white">
-              <Shield className="h-4.5 w-4.5" strokeWidth={2.3} />
+    <section className="screen-card w-full">
+      <div className="screen-panel p-4 sm:p-6">
+        {/* Header Bar */}
+        <div className="mb-4 flex items-center justify-between gap-3 border-b border-white/10 pb-3">
+          <div className="flex items-center gap-2.5 min-w-0">
+            <div className="flex h-9 w-9 items-center justify-center rounded-xl border border-lime-400/30 bg-lime-400/10 shrink-0">
+              <Shield className="h-5 w-5 text-lime-400" strokeWidth={2.2} />
             </div>
-            <div className="text-left leading-tight">
-              <div className="text-[0.95rem] font-black tracking-[0.18em] text-white sm:text-[1.02rem]">
-                MR WHITE
+            <div className="text-left leading-tight min-w-0">
+              <div className="text-xs sm:text-sm font-black tracking-wider text-white truncate">
+                GUESS THE IMPOSTOR
               </div>
-              <div className="text-[0.57rem] font-semibold uppercase tracking-[0.32em] text-lime-400/90 sm:text-[0.62rem]">
+              <div className="text-[0.6rem] font-semibold uppercase tracking-widest text-lime-400/80 truncate">
                 Football Knowledge
               </div>
             </div>
           </div>
 
-          <div className="flex items-center gap-1.5 text-white/70 sm:gap-2">
-            {showBack ? (
-              <button className="ui-icon-button">
-                <ChevronLeft className="h-4.5 w-4.5" />
+          <div className="flex items-center gap-1.5 shrink-0">
+            {showBack && (
+              <button type="button" className="p-1.5 rounded-lg hover:bg-white/10 text-white/70 transition">
+                <ChevronLeft className="h-5 w-5" />
               </button>
-            ) : (
-              <div className="h-8 w-8" />
             )}
-            <div className="glass-chip flex items-center gap-2 rounded-full px-3 py-1.5 text-[0.55rem] font-semibold uppercase tracking-[0.18em] text-white/80 sm:text-[0.6rem]">
-              <span className="grid h-5 w-5 place-items-center rounded-full border border-white/15 text-[0.58rem] text-white/90">
-                {step}
-              </span>
-              <span className="hidden sm:inline whitespace-nowrap">{stepLabel}</span>
-            </div>
-            {showHelp ? (
-              <button className="ui-icon-button">
-                {rightIcon || <HelpCircle className="h-4.5 w-4.5" />}
-              </button>
-            ) : (
-              <div className="h-8 w-8" />
+
+            {stepLabel && (
+              <div className="rounded-full border border-white/10 bg-white/5 px-2.5 py-1 text-[0.65rem] font-semibold uppercase tracking-wider text-white/80">
+                {stepLabel}
+              </div>
             )}
+
+            {rightIcon && <div className="text-white/70">{rightIcon}</div>}
           </div>
         </div>
 
-        <div className="mx-auto max-w-[410px]">
-          <div className="mb-3 text-center sm:mb-4">
-            <div className="text-[0.62rem] font-semibold uppercase tracking-[0.38em] text-lime-400/80 sm:text-[0.68rem]">
-              {title}
-            </div>
-            <p className="mt-1.5 text-[0.82rem] leading-snug text-white/55 sm:text-[0.9rem]">{subtitle}</p>
-          </div>
-
-          {children}
+        {/* Header Judul Screen */}
+        <div className="mb-5 text-center">
+          <h2 className="text-sm sm:text-base font-black uppercase tracking-widest text-lime-400">
+            {title}
+          </h2>
+          {subtitle && <p className="mt-0.5 text-xs text-white/60">{subtitle}</p>}
         </div>
 
-        <div className="mt-4 grid grid-cols-4 gap-1.5 rounded-[1.35rem] border border-white/8 bg-black/18 p-2 text-center text-[0.58rem] font-medium text-white/42 sm:mt-5 sm:rounded-[1.45rem] sm:text-[0.62rem]">
+        {/* Konten Utama */}
+        <div className="w-full">{children}</div>
+
+        {/* Navigation Bar Bawah */}
+        <div className="mt-6 grid grid-cols-4 gap-1 rounded-2xl border border-white/10 bg-black/30 p-1.5 text-center">
           {bottomTabs.map((tab) => {
             const Icon = tab.icon;
             const active = tab.key === activeTab;
@@ -82,16 +75,20 @@ export default function ScreenFrame({
               <button
                 key={tab.key}
                 type="button"
-                className={`ui-tab-button ${active ? "is-active" : ""}`}
+                className={`flex flex-col items-center justify-center gap-1 py-2 rounded-xl transition-all ${
+                  active
+                    ? "bg-white/10 text-lime-300 font-bold border border-lime-400/20"
+                    : "text-white/50 hover:bg-white/5 hover:text-white/80"
+                }`}
               >
-                <Icon className={`h-3.5 w-3.5 ${active ? "text-lime-300" : "text-white/45"}`} />
-                <span>{tab.label}</span>
+                <Icon className={`h-4 w-4 ${active ? "text-lime-300" : "text-white/50"}`} />
+                <span className="text-[0.6rem]">{tab.label}</span>
               </button>
             );
           })}
         </div>
 
-        {footer ? <div className="mt-4">{footer}</div> : null}
+        {footer && <div className="mt-4">{footer}</div>}
       </div>
     </section>
   );

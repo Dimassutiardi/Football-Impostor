@@ -1,46 +1,60 @@
 {
   "players_active": [
-    { "trueWord": "Erling Haaland", "whiteWord": "Kylian Mbappé", "hint": "Striker Muda Superstar Saat Ini" },
-    { "trueWord": "Lionel Messi", "whiteWord": "Cristiano Ronaldo", "hint": "GOAT Sepak Bola Modern" },
-    { "trueWord": "Luka Modric", "whiteWord": "Toni Kroos", "hint": "Legenda Midfielder Real Madrid" },
-    { "trueWord": "Bukayo Saka", "whiteWord": "Phil Foden", "hint": "Winger Muda Timnas Inggris" },
-    { "trueWord": "Kevin De Bruyne", "whiteWord": "Bruno Fernandes", "hint": "Playmaker Premier League" },
-    { "trueWord": "Virgil van Dijk", "whiteWord": "Rúben Dias", "hint": "Bek Tengah Tangguh Premier League" },
-    { "trueWord": "Vinicius Jr", "whiteWord": "Rodrygo", "hint": "Winger Brasil di Real Madrid" },
-    { "trueWord": "Alisson Becker", "whiteWord": "Ederson Moraes", "hint": "Kiper Utama Asal Brasil" },
-    { "trueWord": "Jude Bellingham", "whiteWord": "Jamal Musiala", "hint": "Gelandang Muda Kelas Dunia" },
-    { "trueWord": "Robert Lewandowski", "whiteWord": "Harry Kane", "hint": "Mesin Gol Veteran" },
-    { "trueWord": "Trent Alexander-Arnold", "whiteWord": "Kyle Walker", "hint": "Bek Kanan Timnas Inggris" },
-    { "trueWord": "Lamine Yamal", "whiteWord": "Endrick", "hint": "Wonderkid Teenage Sensation" }
+    {
+      "trueWord": "Siapa pemain dengan kaki kiri terbaik?",
+      "whiteWord": "Siapa pemain right winger terbaik?",
+      "hint": "Topik: Kategori Pemain Aktif"
+    },
+    {
+      "trueWord": "Siapa bek dengan heading terbaik?",
+      "whiteWord": "Siapa bek dengan tackle terbaik?",
+      "hint": "Topik: Kategori Bek Tangguh"
+    },
+    {
+      "trueWord": "Siapa eksekutor free-kick terbaik saat ini?",
+      "whiteWord": "Siapa eksekutor penalti paling tenang?",
+      "hint": "Topik: Spesialis Bola Mati"
+    },
+    {
+      "trueWord": "Siapa gelandang dengan vision/passing terbaik?",
+      "whiteWord": "Siapa gelandang pengangkut air dengan stamina terbaik?",
+      "hint": "Topik: Peran Lini Tengah"
+    }
   ],
   "legends": [
-    { "trueWord": "Pelé", "whiteWord": "Diego Maradona", "hint": "Legenda Abadi Sepak Bola Dunia" },
-    { "trueWord": "Ronaldinho", "whiteWord": "Neymar Jr", "hint": "Penyihir Jogo Bonito Brasil" },
-    { "trueWord": "Paolo Maldini", "whiteWord": "Sergio Ramos", "hint": "Bek Kapten Legendaris" },
-    { "trueWord": "Zinedine Zidane", "whiteWord": "Andrés Iniesta", "hint": "Maestro Lapangan Tengah" },
-    { "trueWord": "Thierry Henry", "whiteWord": "Wayne Rooney", "hint": "Legenda Striker Premier League" },
-    { "trueWord": "David Beckham", "whiteWord": "Andrea Pirlo", "hint": "Raja Tendangan Bebas / Long Ball" },
-    { "trueWord": "Gianluigi Buffon", "whiteWord": "Iker Casillas", "hint": "Kiper Legendaris Era 2000an" },
-    { "trueWord": "Ronaldo Nazário (R9)", "whiteWord": "Marco van Basten", "hint": "Striker Nomor 9 Terbaik" },
-    { "trueWord": "Steven Gerrard", "whiteWord": "Frank Lampard", "hint": "Gelandang Legendaris Inggris" },
-    { "trueWord": "Kaká", "whiteWord": "Luka Modric", "hint": "Pemenang Ballon d'Or Midfielder" }
+    {
+      "trueWord": "Siapa pemain legendaris nomor 10 paling ikonik?",
+      "whiteWord": "Siapa pemenang Ballon d'Or terbanyak sepanjang sejarah?",
+      "hint": "Topik: Legenda Dunia"
+    },
+    {
+      "trueWord": "Siapa striker murni paling mematikan di era 2000-an?",
+      "whiteWord": "Siapa winger paling lincah dan berteknik tinggi di era 2000-an?",
+      "hint": "Topik: Striker vs Winger Legendaris"
+    }
   ],
   "clubs": [
-    { "trueWord": "Manchester United", "whiteWord": "Liverpool", "hint": "Rivalitas Akbar Premier League" },
-    { "trueWord": "Real Madrid", "whiteWord": "Barcelona", "hint": "El Clásico Spanyol" },
-    { "trueWord": "AC Milan", "whiteWord": "Inter Milan", "hint": "Derby della Madonnina" },
-    { "trueWord": "Arsenal", "whiteWord": "Chelsea", "hint": "Klub Raksasa London" },
-    { "trueWord": "Bayern Munich", "whiteWord": "Borussia Dortmund", "hint": "Der Klassiker Jerman" },
-    { "trueWord": "Manchester City", "whiteWord": "Paris Saint-Germain", "hint": "Klub Kaya Raya Era Modern" },
-    { "trueWord": "Juventus", "whiteWord": "AS Roma", "hint": "Klub Tradisional Serie A Italia" },
-    { "trueWord": "Bayer Leverkusen", "whiteWord": "Atalanta", "hint": "Klub Kejutan Juara Baru-Baru Ini" }
+    {
+      "trueWord": "Klub mana yang punya sejarah UCL terbanyak?",
+      "whiteWord": "Klub mana yang paling mendominasi liga domestiknya?",
+      "hint": "Topik: Prestasi Klub"
+    },
+    {
+      "trueWord": "Klub mana yang terkenal dengan akademi pemain mudanya?",
+      "whiteWord": "Klub mana yang paling sering belanja pemain mahal?",
+      "hint": "Topik: Strategi dan Budaya Klub"
+    }
   ],
   "stadiums_and_trophies": [
-    { "trueWord": "Old Trafford", "whiteWord": "Anfield", "hint": "Stadion Bersejarah di Inggris" },
-    { "trueWord": "Santiago Bernabéu", "whiteWord": "Camp Nou", "hint": "Stadion Raksasa di Spanyol" },
-    { "trueWord": "San Siro", "whiteWord": "Allianz Stadium", "hint": "Stadion Ikonik di Italia" },
-    { "trueWord": "Wembley Stadium", "whiteWord": "Stade de France", "hint": "Stadion Nasional Final Turnamen" },
-    { "trueWord": "Liga Champions (UCL)", "whiteWord": "Piala Dunia (World Cup)", "hint": "Trofi Paling Bergengsi" },
-    { "trueWord": "Ballon d'Or", "whiteWord": "Sepatu Emas (Golden Boot)", "hint": "Penghargaan Individu Tertinggi" }
+    {
+      "trueWord": "Stadion mana yang atmosfer suorternya paling angker?",
+      "whiteWord": "Stadion mana yang memiliki kapasitas penonton terbesar?",
+      "hint": "Topik: Stadion & Markas"
+    },
+    {
+      "trueWord": "Trofi mana yang paling sulit didapatkan oleh sebuah klub?",
+      "whiteWord": "Trofi mana yang paling bergengsi untuk pemain secara individu?",
+      "hint": "Topik: Gelar & Kejuaraan"
+    }
   ]
 }
