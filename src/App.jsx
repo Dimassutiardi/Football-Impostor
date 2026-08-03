@@ -10,7 +10,7 @@ import { generateGameRoles } from "./utils/gameLogic";
 
 export default function App() {
   const [gameState, setGameState] = useState("SETUP");
-  const [activeTab, setActiveTab] = useState("home"); // 💡 State untuk navbar bawah
+  const [activeTab, setActiveTab] = useState("home");
 
   const [playerNames, setPlayerNames] = useState(["Pemain 1", "Pemain 2", "Pemain 3", "Pemain 4"]);
   const [impostorCount, setImpostorCount] = useState(1);
@@ -19,12 +19,20 @@ export default function App() {
   const [impostorQuestion, setImpostorQuestion] = useState("");
   const [guessedPlayers, setGuessedPlayers] = useState([]);
 
+  // 💡 1. KELOLA HISTORYLOG MENGGUNAKAN REACT STATE
+  const [historyLog, setHistoryLog] = useState(() => {
+    try {
+      return JSON.parse(localStorage.getItem("game_history") || "[]");
+    } catch (e) {
+      return [];
+    }
+  });
+
   // Fungsi untuk menghitung statistik pemain berdasarkan historyLog
   const getLeaderboardData = (history) => {
     const stats = {};
 
     history.forEach((game) => {
-      // Jika data game lama belum punya 'allPlayers', skip atau sesuaikan
       if (!game.allPlayers) return;
 
       game.allPlayers.forEach((player) => {
@@ -37,31 +45,24 @@ export default function App() {
 
         stats[name].total += 1;
 
-        // 💡 LOGIKA PERBAIKAN:
         if (game.isCorrect) {
-          // Tebakan BENAR (Impostor Ketahuan)
           if (isImpostor) {
-            stats[name].loss += 1; // Impostor Ketahuan = KALAH
+            stats[name].loss += 1;
           } else {
-            stats[name].win += 1;  // Real Player = MENANG
+            stats[name].win += 1;
           }
         } else {
-          // Tebakan SALAH (Impostor Mengecoh / Lolos)
           if (isImpostor) {
-            stats[name].win += 1;   // Impostor Lolos = MENANG
+            stats[name].win += 1;
           } else {
-            stats[name].loss += 1;  // Real Player = KALAH
+            stats[name].loss += 1;
           }
         }
       });
     });
 
-    // Urutkan dari jumlah Kemenangan Terbanyak
     return Object.values(stats).sort((a, b) => b.win - a.win || a.loss - b.loss);
   };
-
-  // Ambil history dari LocalStorage
-  const historyLog = JSON.parse(localStorage.getItem("game_history") || "[]");
 
   const handleStartGame = (sanitizedNames, category, selectedImpostorCount) => {
     setPlayerNames(sanitizedNames);
@@ -87,7 +88,6 @@ export default function App() {
     if (votedPlayersArray && votedPlayersArray.length > 0) {
       const actualImpostors = players.filter((p) => p.isImpostor);
       
-      // Tebakan dianggap BENAR jika jumlah & orang yang ditebak persis sama dengan Impostor
       const isCorrect =
         votedPlayersArray.length === actualImpostors.length &&
         votedPlayersArray.every((p) => p.isImpostor);
@@ -95,21 +95,34 @@ export default function App() {
       const newEntry = {
         id: Date.now(),
         date: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
-        // 💡 Simpan daftar seluruh pemain beserta perannya di sesi ini
         allPlayers: players.map((p) => ({
           name: p.name,
           isImpostor: p.isImpostor,
         })),
+        impostorNames: actualImpostors.map((p) => p.name).join(", "),
         votedPlayerNames: votedPlayersArray.map((p) => p.name).join(", "),
-        isCorrect: isCorrect, // true = Impostor Ketahuan, false = Impostor Lolos
+        isCorrect: isCorrect,
       };
-      localStorage.setItem("game_history", JSON.stringify([newEntry, ...historyLog]));
+
+      const updatedHistory = [newEntry, ...historyLog];
+      
+      // 💡 Sekarang setHistoryLog sudah ada dan berfungsi!
+      setHistoryLog(updatedHistory);
+      localStorage.setItem("game_history", JSON.stringify(updatedHistory));
     }
+
     setGameState("RESULT");
   };
 
   const handleTabChange = (tabKey) => {
     setActiveTab(tabKey);
+  };
+
+  // 💡 Handler Hapus Riwayat
+  const handleClearHistory = () => {
+    localStorage.removeItem("game_history");
+    setHistoryLog([]); // Reset state history juga
+    setActiveTab("home");
   };
 
   return (
@@ -160,7 +173,7 @@ export default function App() {
         </div>
       </div>
 
-      {/* 💡 MODAL OVERLAY NAVBAR BAWAH */}
+      {/* MODAL OVERLAY NAVBAR BAWAH */}
       {activeTab !== "home" && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm p-4 animate-in fade-in duration-200">
           <div className="w-full max-w-md rounded-3xl border border-white/10 bg-slate-900 p-5 text-white shadow-2xl space-y-4">
@@ -188,23 +201,52 @@ export default function App() {
             {/* Modal Content */}
             <div className="max-h-64 overflow-y-auto space-y-2 pr-1">
               {activeTab === "history" && (
-                historyLog.length > 0 ? (
-                  historyLog.map((item, idx) => (
-                    <div key={item.id || idx} className="flex items-center justify-between p-3 rounded-xl border border-white/10 bg-white/5 text-xs">
-                      <div>
-                        <span className="font-bold text-white block">{item.votedPlayerNames}</span>
-                        <span className="text-[0.65rem] text-white/50">{item.date}</span>
-                      </div>
-                      <span className={`px-2 py-0.5 rounded-full font-bold text-[0.65rem] ${
-                        item.isCorrect ? "bg-lime-500/20 text-lime-300 border border-lime-500/30" : "bg-rose-500/20 text-rose-300 border border-rose-500/30"
-                      }`}>
-                        {item.isCorrect ? "IMPOSTOR KALAH" : "IMPOSTOR MENANG"}
-                      </span>
-                    </div>
-                  ))
-                ) : (
-                  <p className="text-center text-xs text-white/50 py-6">Belum ada riwayat permainan.</p>
-                )
+                <div className="space-y-2 max-h-60 overflow-y-auto pr-1">
+                  {historyLog.length > 0 ? (
+                    historyLog.map((item) => {
+                      const displayImpostor =
+                        item.impostorNames ||
+                        (item.allPlayers
+                          ? item.allPlayers.filter((p) => p.isImpostor).map((p) => p.name).join(", ")
+                          : item.votedPlayerNames);
+
+                      return (
+                        <div
+                          key={item.id}
+                          className="flex items-center justify-between p-3 rounded-xl border border-white/10 bg-white/5 text-xs"
+                        >
+                          <div>
+                            <div className="flex items-center gap-2">
+                              <span className="text-white/50 text-[0.65rem]">{item.date}</span>
+                              <span
+                                className={`px-2 py-0.5 rounded-full text-[0.6rem] font-bold uppercase ${
+                                  item.isCorrect
+                                    ? "bg-lime-500/20 text-lime-400 border border-lime-500/30"
+                                    : "bg-rose-500/20 text-rose-400 border border-rose-500/30"
+                                }`}
+                              >
+                                {item.isCorrect ? "Ketahuan" : "Lolos"}
+                              </span>
+                            </div>
+                            
+                            <p className="font-bold text-white mt-1">
+                              Impostor: <span className="text-rose-400">{displayImpostor}</span>
+                            </p>
+                          </div>
+
+                          <div className="text-right text-[0.65rem] text-white/50">
+                            <p>Ditebak:</p>
+                            <p className="font-semibold text-white/80">{item.votedPlayerNames}</p>
+                          </div>
+                        </div>
+                      );
+                    })
+                  ) : (
+                    <p className="text-center text-xs text-white/50 py-6">
+                      Belum ada riwayat permainan.
+                    </p>
+                  )}
+                </div>
               )}
 
               {activeTab === "leaderboard" && (
@@ -249,10 +291,7 @@ export default function App() {
                 <div className="space-y-3 text-xs">
                   <button
                     type="button"
-                    onClick={() => {
-                      localStorage.removeItem("game_history");
-                      setActiveTab("home");
-                    }}
+                    onClick={handleClearHistory}
                     className="w-full py-2.5 rounded-xl border border-rose-500/30 bg-rose-500/10 text-rose-300 hover:bg-rose-500/20 font-bold transition cursor-pointer"
                   >
                     Hapus Riwayat Permainan

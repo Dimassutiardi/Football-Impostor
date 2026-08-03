@@ -1,23 +1,38 @@
-import React, { useState } from "react";
-import { Users, UserX, Shield, Trophy, User, BookOpen, PlayCircle, HelpCircle, AlertTriangle, UserCheck } from "lucide-react";
+import React, { useState, useEffect } from "react";
+import { Users, UserX, Shield, Trophy, User, Flag, PlayCircle, HelpCircle, UserCheck } from "lucide-react";
 import ScreenFrame from "./ScreenFrame";
 
 export default function SetupScreen({ 
   initialPlayerNames = ["Pemain 1", "Pemain 2", "Pemain 3", "Pemain 4"], 
   onStartGame,
-  activeTab = "home",   // 💡 Tambahkan ini
-  onTabChange           // 💡 Tambahkan ini
+  activeTab = "home", 
+  onTabChange 
 }) {
-  const [playerNames, setPlayerNames] = useState(initialPlayerNames);
-  const [playerCount, setPlayerCount] = useState(initialPlayerNames.length);
+  const [playerNames, setPlayerNames] = useState(() => {
+    const saved = localStorage.getItem("game_player_names");
+    if (saved) {
+      try {
+        return JSON.parse(saved);
+      } catch (e) {
+        console.error("Gagal membaca nama pemain dari localStorage:", e);
+      }
+    }
+    return initialPlayerNames;
+  });
+
+  const [playerCount, setPlayerCount] = useState(playerNames.length);
   const [impostorCount, setImpostorCount] = useState(1);
   const [category, setCategory] = useState("clubs");
 
+  useEffect(() => {
+    localStorage.setItem("game_player_names", JSON.stringify(playerNames));
+  }, [playerNames]);
+
   const categories = [
-    { id: "clubs", label: "Klub Dunia", icon: Shield },
+    { id: "players", label: "Pemain", icon: User },
+    { id: "country", label: "Negara", icon: Flag },
+    { id: "clubs", label: "Klub", icon: Shield },
     { id: "stadiums_and_trophies", label: "Liga & Trofi", icon: Trophy },
-    { id: "players_active", label: "Pemain Aktif", icon: User },
-    { id: "legends", label: "Legendaris", icon: BookOpen },
   ];
 
   const handlePlayerCountChange = (newCount) => {
@@ -51,14 +66,14 @@ export default function SetupScreen({
   };
 
   return (
-      <ScreenFrame
-        stepLabel="Setup Game"
-        title="SETUP GAME"
-        subtitle="Atur pemain & topik sebelum mulai"
-        activeTab={activeTab}
-        onTabChange={onTabChange}
-        rightIcon={<HelpCircle className="h-5 w-5" />}
-      >
+    <ScreenFrame
+      stepLabel="Setup Game"
+      title="SETUP GAME"
+      subtitle="Atur pemain & topik sebelum mulai"
+      activeTab={activeTab}
+      onTabChange={onTabChange}
+      rightIcon={<HelpCircle className="h-5 w-5" />}
+    >
       <form onSubmit={handleStart} className="space-y-3.5">
         
         {/* Kategori Topik */}
@@ -103,7 +118,7 @@ export default function SetupScreen({
               <button
                 type="button"
                 onClick={() => handlePlayerCountChange(playerCount - 1)}
-                className="h-7 w-7 font-bold flex items-center justify-center rounded-lg bg-white/10 active:scale-95 text-white"
+                className="h-7 w-7 font-bold flex items-center justify-center rounded-lg bg-white/10 active:scale-95 text-white cursor-pointer"
               >
                 −
               </button>
@@ -111,7 +126,7 @@ export default function SetupScreen({
               <button
                 type="button"
                 onClick={() => handlePlayerCountChange(playerCount + 1)}
-                className="h-7 w-7 font-bold flex items-center justify-center rounded-lg bg-white/10 active:scale-95 text-white"
+                className="h-7 w-7 font-bold flex items-center justify-center rounded-lg bg-white/10 active:scale-95 text-white cursor-pointer"
               >
                 +
               </button>
@@ -127,7 +142,7 @@ export default function SetupScreen({
               <button
                 type="button"
                 onClick={() => setImpostorCount(Math.max(1, impostorCount - 1))}
-                className="h-7 w-7 font-bold flex items-center justify-center rounded-lg bg-white/10 active:scale-95 text-white"
+                className="h-7 w-7 font-bold flex items-center justify-center rounded-lg bg-white/10 active:scale-95 text-white cursor-pointer"
               >
                 −
               </button>
@@ -135,7 +150,7 @@ export default function SetupScreen({
               <button
                 type="button"
                 onClick={() => setImpostorCount(Math.min(playerCount >= 6 ? 2 : 1, impostorCount + 1))}
-                className="h-7 w-7 font-bold flex items-center justify-center rounded-lg bg-white/10 active:scale-95 text-white"
+                className="h-7 w-7 font-bold flex items-center justify-center rounded-lg bg-white/10 active:scale-95 text-white cursor-pointer"
               >
                 +
               </button>

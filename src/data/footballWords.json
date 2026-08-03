@@ -1,60 +1,58 @@
 {
-  "players_active": [
+  "players": [
     {
       "trueWord": "Siapa pemain dengan kaki kiri terbaik?",
-      "whiteWord": "Siapa pemain right winger terbaik?",
-      "hint": "Topik: Kategori Pemain Aktif"
+      "impostor": "Siapa pemain winger kanan terbaik?"
+    },
+        {
+      "trueWord": "Siapa pemain dengan kaki kanan terbaik?",
+      "impostor": "Siapa pemain winger kiri terbaik?"
     },
     {
       "trueWord": "Siapa bek dengan heading terbaik?",
-      "whiteWord": "Siapa bek dengan tackle terbaik?",
-      "hint": "Topik: Kategori Bek Tangguh"
+      "impostor": "Siapa bek dengan tackle terbaik?"
     },
     {
-      "trueWord": "Siapa eksekutor free-kick terbaik saat ini?",
-      "whiteWord": "Siapa eksekutor penalti paling tenang?",
-      "hint": "Topik: Spesialis Bola Mati"
+      "trueWord": "Siapa pemain dengan free-kick terbaik?",
+      "impostor": "Siapa pemain dengan long shot terbaik?"
     },
     {
       "trueWord": "Siapa gelandang dengan vision/passing terbaik?",
-      "whiteWord": "Siapa gelandang pengangkut air dengan stamina terbaik?",
-      "hint": "Topik: Peran Lini Tengah"
-    }
-  ],
-  "legends": [
-    {
-      "trueWord": "Siapa pemain legendaris nomor 10 paling ikonik?",
-      "whiteWord": "Siapa pemenang Ballon d'Or terbanyak sepanjang sejarah?",
-      "hint": "Topik: Legenda Dunia"
+      "impostor": "Siapa gelandang pengangkut air dengan stamina terbaik?"
     },
     {
-      "trueWord": "Siapa striker murni paling mematikan di era 2000-an?",
-      "whiteWord": "Siapa winger paling lincah dan berteknik tinggi di era 2000-an?",
-      "hint": "Topik: Striker vs Winger Legendaris"
+      "trueWord": "Siapa pemain dengan flair terbaik?",
+      "impostor": "Siapa pemain dengan dribble terbaik?"
+    }
+  ],
+  "country": [
+    {
+      "trueWord": "Negara yang akan juara euro 2028?",
+      "impostor": "Negara asal juara liga champion 2027?"
+    },
+    {
+      "trueWord": "Negara terbaik di Asia?",
+      "impostor": "Asal negara pemain terbaik di Asia?"
     }
   ],
   "clubs": [
     {
       "trueWord": "Klub mana yang punya sejarah UCL terbanyak?",
-      "whiteWord": "Klub mana yang paling mendominasi liga domestiknya?",
-      "hint": "Topik: Prestasi Klub"
+      "impostor": "Klub mana yang akan menjuarai liga inggris musim ini?"
     },
     {
       "trueWord": "Klub mana yang terkenal dengan akademi pemain mudanya?",
-      "whiteWord": "Klub mana yang paling sering belanja pemain mahal?",
-      "hint": "Topik: Strategi dan Budaya Klub"
+      "impostor": "Klub mana yang paling sering belanja pemain mahal?"
     }
   ],
   "stadiums_and_trophies": [
     {
       "trueWord": "Stadion mana yang atmosfer suorternya paling angker?",
-      "whiteWord": "Stadion mana yang memiliki kapasitas penonton terbesar?",
-      "hint": "Topik: Stadion & Markas"
+      "impostor": "Stadion mana yang memiliki kapasitas penonton terbesar?"
     },
     {
-      "trueWord": "Trofi mana yang paling sulit didapatkan oleh sebuah klub?",
-      "whiteWord": "Trofi mana yang paling bergengsi untuk pemain secara individu?",
-      "hint": "Topik: Gelar & Kejuaraan"
+      "trueWord": "klub dengan fans terbanyak di dunia?",
+      "impostor": "klub dengan fans terbaik di dunia?"
     }
   ]
 }

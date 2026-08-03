@@ -33,7 +33,7 @@ export function generateGameRoles(playerNames, categoryWords, impostorCount = 1)
       name: name,
       isImpostor: isImpostor, // 💡 TAMBAHKAN INI agar ResultScreen & App bisa mendeteksi impostor
       role: isImpostor ? "IMPOSTOR" : "REAL_PLAYER",
-      word: isImpostor ? selectedObj.whiteWord : selectedObj.trueWord,
+      word: isImpostor ? selectedObj.impostor : selectedObj.trueWord,
       hint: selectedObj.hint,
     };
   });
@@ -41,6 +41,6 @@ export function generateGameRoles(playerNames, categoryWords, impostorCount = 1)
   return {
     players: playersWithRoles,
     secretWord: selectedObj.trueWord,
-    impostorQuestion: selectedObj.whiteWord,
+    impostorQuestion: selectedObj.impostor,
   };
 }
