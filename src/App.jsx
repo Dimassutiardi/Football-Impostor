@@ -152,6 +152,7 @@ export default function App() {
               <PlayScreen
                 players={players}
                 impostorCount={impostorCount}
+                secretWord={secretWord}
                 onFinishPlay={handleFinishPlay}
                 activeTab={activeTab}
                 onTabChange={handleTabChange}

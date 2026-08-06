@@ -1,26 +1,23 @@
 import React, { useState } from "react";
-import { Users, UserX, CheckCircle2, MessageSquare } from "lucide-react";
+import { Users, UserX, CheckCircle2, MessageSquare, HelpCircle } from "lucide-react";
 import ScreenFrame from "./ScreenFrame";
 
 export default function PlayScreen({ 
   players = [], 
   impostorCount = 1, 
+  secretWord = "",
   onFinishPlay,
-  activeTab = "home",   // 💡 Tambahkan ini
-  onTabChange           // 💡 Tambahkan ini
+  activeTab = "home",   
+  onTabChange           
 }) {
-  // Array untuk menampung beberapa pemain yang dituduh
   const [selectedPlayers, setSelectedPlayers] = useState([]);
 
   const toggleSelectPlayer = (player) => {
-    // 💡 Gunakan player.name sebagai identifier yang pasti unik jika 'id' bernilai undefined
     const isAlreadySelected = selectedPlayers.some((p) => (p.id || p.name) === (player.id || player.name));
 
     if (isAlreadySelected) {
-      // Hapus dari daftar jika diklik lagi
       setSelectedPlayers(selectedPlayers.filter((p) => (p.id || p.name) !== (player.id || player.name)));
     } else {
-      // Tambahkan jika belum mencapai batas jumlah impostor
       if (selectedPlayers.length < impostorCount) {
         setSelectedPlayers([...selectedPlayers, player]);
       }
@@ -42,7 +39,23 @@ export default function PlayScreen({
       onTabChange={onTabChange}  
     >
       <div className="space-y-3.5">
-        {/* Banner Instruksi */}
+        
+        {/* 💡 Banner Pertanyaan Impostor */}
+        {secretWord && (
+          <div className="rounded-2xl border border-sky-500/30 bg-sky-500/10 p-3 text-left text-xs text-sky-200 flex items-start gap-2.5 shadow-[0_0_15px_rgba(14,165,233,0.15)]">
+            <HelpCircle className="h-4 w-4 shrink-0 text-sky-400 mt-0.5" />
+            <div className="space-y-0.5 text-[0.7rem]">
+              <span className="font-bold text-sky-300 block uppercase tracking-wider text-[0.65rem]">
+                Pertanyaannya:
+              </span>
+              <p className="text-white font-medium italic leading-relaxed">
+                "{secretWord}"
+              </p>
+            </div>
+          </div>
+        )}
+
+        {/* Banner Aturan Voting */}
         <div className="rounded-2xl border border-amber-500/30 bg-amber-500/10 p-3 text-left text-xs text-amber-200 flex items-start gap-2.5">
           <MessageSquare className="h-4 w-4 shrink-0 text-amber-400 mt-0.5" />
           <div className="space-y-0.5 text-[0.7rem]">
@@ -64,7 +77,6 @@ export default function PlayScreen({
 
           <div className="grid grid-cols-2 gap-2 max-h-56 overflow-y-auto pr-1">
             {players.map((player, index) => {
-              // 💡 Pengecekan isSelected diperbaiki agar mengecek id ATAU name
               const isSelected = selectedPlayers.some(
                 (p) => (p.id || p.name) === (player.id || player.name)
               );
@@ -74,7 +86,7 @@ export default function PlayScreen({
                   key={player.id || `player-${index}`}
                   type="button"
                   onClick={() => toggleSelectPlayer(player)}
-                  className={`flex items-center justify-between p-2.5 rounded-xl border text-left transition ${
+                  className={`flex items-center justify-between p-2.5 rounded-xl border text-left transition cursor-pointer ${
                     isSelected
                       ? "border-rose-500 bg-rose-500/20 text-white shadow-[0_0_12px_rgba(244,63,94,0.3)]"
                       : "border-white/10 bg-white/5 text-white/80 hover:bg-white/10"
